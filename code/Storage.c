@@ -117,14 +117,14 @@ INT8U StorageSetParam(PINFO_PARAM Info, INT8U* Data, INT8U* THData)
     {
         return 2;
     }
-    mSysParam.DataNum++;
+    mSysParam.DataNum++;  
     SubAddr = ADDRESS_DATA(mSysParam.DataNum);
     I2CWrite(I2C_ADDR_W, SubAddr, (unsigned char*)Info, sizeof(INFO_PARAM));
     SubAddr += sizeof(INFO_PARAM);
     I2CWrite(I2C_ADDR_W, SubAddr, (unsigned char*)Data, (16*Info->Num));
     SubAddr += (16*Info->Num);
     I2CWrite(I2C_ADDR_W, SubAddr, (unsigned char*)THData, Info->Num);    
-    I2CWrite(I2C_ADDR_W, ADDRESS_INIT, (unsigned char*)(&mSysParam), sizeof(SYS_PARAM));
+    I2CWrite(I2C_ADDR_W, ADDRESS_INIT, (unsigned char*)(&mSysParam), sizeof(SYS_PARAM));  
     return 0;
 }
 
@@ -179,6 +179,7 @@ INT8U StorageGetParam(INT8U Index, PINFO_PARAM Info, INT8U* Data, INT8U* THData)
     {
         return FALSE;
     }
+
     I2cRead(I2C_ADDR_W, SubAddr, (char*)Info, sizeof(INFO_PARAM));
     SubAddr += sizeof(INFO_PARAM); 
     I2cRead(I2C_ADDR_W, SubAddr, (char*)Data, (Info->Num*16));
@@ -281,7 +282,7 @@ PINFO_PARAM StorageGetInfo(void)
     INT8U a,b,c;
     a = (mSysParam.DataNum+1)/100;
     b = ((mSysParam.DataNum+1-a*100))/10;
-    c = ((mSysParam.DataNum+1))%10;
+    c = (mSysParam.DataNum+1)%10;
     mInfoParam.Name[0] = '0';
     mInfoParam.Name[1] = '0';
     mInfoParam.Name[2] = '0';
@@ -339,6 +340,7 @@ void StorageClear(void)
     mSysParam.Init = 1;
     mSysParam.BeepEnable = 1;
     mSysParam.DataNum = 0;
+    StorageInitInfo();
     I2CWrite(I2C_ADDR_W, ADDRESS_INIT, (unsigned char*)(&mSysParam), sizeof(SYS_PARAM));
 }
 

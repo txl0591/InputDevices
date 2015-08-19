@@ -221,7 +221,7 @@ static INT8U keytimer_proc(void)
 {
     INT8U ret = 0;
     PKEYSTATE Key = getKeyCode();
-    if(Key != NULL && Key->State == KEY_UP)
+    if(Key != NULL && Key->State == KEY_DOWN)
     {       
         switch(Key->Code)
         {

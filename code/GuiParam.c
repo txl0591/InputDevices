@@ -355,7 +355,6 @@ static void ChangeItem(INT8U state)
         }
     }
     mInputIndex = 0;
-    InvalidateRect(NULL);
 }
 
 /*************************************************
@@ -419,7 +418,9 @@ static void SaveParam(void)
 *************************************************/
 static void InputItem(INT8U Key)
 {
-    INT8U a,b;
+    Rect nRect;  
+    INT8U a,b, allflash = 0;
+    INT8U oldIndex = mIndex;
     INT16U Base = 16*(mCQIndex-1);
     INT8U uChar = GetKeyNum(Key);
     mInput[mInputIndex] = uChar;
@@ -448,14 +449,47 @@ static void InputItem(INT8U Key)
                 mIndex = 0;
                 mPageState = PAGE_THEDIT;    
                 init_thdata();
+                allflash = 1;
             }
         }
         if(mPageState == PAGE_CQEDIT)
         {
             ChangeItem(1);
         }
+
     }
-    InvalidateRect(NULL);
+    else
+    {
+        a = mInput[0]-'0';
+        mBufP[Base+mIndex] = a*10+b; 
+    }
+    if(allflash == 1)
+    {
+        InvalidateRect(NULL);
+    }
+    else
+    {   
+        a = oldIndex/4;
+        b = oldIndex%4;
+        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
+        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
+        nRect.w = 24;
+        nRect.h = 24;
+        InvalidateRectNow(&nRect);
+        a = mIndex/4;
+        b = mIndex%4;
+        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
+        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
+        nRect.w = 24;
+        nRect.h = 24;
+        InvalidateRectNow(&nRect);
+    
+        nRect.x = BIG_XPOS;
+        nRect.y = BIG_YPOS;
+        nRect.w = 48;
+        nRect.h = 80;
+        InvalidateRect(&nRect);
+    }
 }
 
 /*************************************************
@@ -579,7 +613,7 @@ static INT8U keyparam_proc(void)
             case KEY_CODE_5:
             case KEY_CODE_6:    
             case KEY_CODE_7:
-            case KEY_CODE_2:
+            case KEY_CODE_8:
             case KEY_CODE_9:
                 switch(mPageState)
                 {
@@ -625,8 +659,19 @@ static INT8U keyparam_proc(void)
                         ChangeDataItem(0);
                         break;
                     
-                    case PAGE_CQEDIT:   
-                        ChangeItem(0);
+                    case PAGE_CQEDIT: 
+                        if(mInput[0] != 0)
+                        {
+                            mInput[0] = 0;
+                            mInput[1] = 0;  
+                            mInputIndex = 0;
+                            InvalidateRect(NULL);
+                        }
+                        else
+                        {
+                            ChangeItem(0);
+                            InvalidateRect(NULL);
+                        }
                         break;
                     
                     case PAGE_THEDIT:
@@ -647,6 +692,7 @@ static INT8U keyparam_proc(void)
                     
                     case PAGE_CQEDIT:   
                         ChangeItem(1);
+                        InvalidateRect(NULL);
                         break;
                     
                     case PAGE_THEDIT:

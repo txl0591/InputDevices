@@ -41,7 +41,7 @@ static void PortInit(void)
 
 	#if(_SYS_TYPE ==_STC_15L2K60S2_)
     P0M1 = 0X00;
-    P0M0 = 0X0F;
+    P0M0 = 0X00;
     
     P1M1 = 0x00;
 	P1M0 = 0x01;

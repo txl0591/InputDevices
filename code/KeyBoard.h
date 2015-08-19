@@ -40,21 +40,21 @@ sbit KeyPower = P5^5;
 
 #define KEY_CODE_MENU   0xED
 #define KEY_CODE_OK     0xEE
-#define KEY_CODE_3      0x77
-#define KEY_CODE_2      0xB7
-#define KEY_CODE_1      0xD7
+#define KEY_CODE_9      0x77
+#define KEY_CODE_8      0xB7
+#define KEY_CODE_7      0xD7
 #define KEY_CODE_6      0x7B
 #define KEY_CODE_5      0xBB
 #define KEY_CODE_4      0xDB
-#define KEY_CODE_9      0x7D
-#define KEY_CODE_8      0xBD    
-#define KEY_CODE_7      0xDD
+#define KEY_CODE_3      0x7D
+#define KEY_CODE_2      0xBD    
+#define KEY_CODE_1      0xDD
 #define KEY_CODE_0      0xBE
 #define KEY_CODE_LEFT   0xDE
 #define KEY_CODE_RIGHT  0x7E
 #define KEY_CODE_POWER  0xA1
 
-#define KEY_CODE_UP     KEY_CODE_8
+#define KEY_CODE_UP     KEY_CODE_2
 #define KEY_CODE_DOWN   KEY_CODE_0  
 
 typedef struct 

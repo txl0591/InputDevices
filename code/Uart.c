@@ -287,6 +287,18 @@ void AckCommandDirect(INT8U Cmd, INT8U Id, INT8U *Data, INT8U Len)
 }
 
 /*************************************************
+  Function:		SendCommandAddID
+  Description:  
+  Input:		
+  Output:		
+  Return:		
+  Others:
+*************************************************/
+void SendCommandAddID(void)
+{
+    mUartID++;
+}
+/*************************************************
   Function:		SendCommandDirect
   Description:  
   Input:		
@@ -296,7 +308,6 @@ void AckCommandDirect(INT8U Cmd, INT8U Id, INT8U *Data, INT8U Len)
 *************************************************/
 void SendCommandDirect(INT8U Cmd, INT8U *Data, INT8U Len)
 {
-	mUartID++;
 	SendFrameComm(Cmd, FRAME_SEND, FRAME_NONEED_ACK, mUartID, Data, Len);
     UartSend(mUartSendBuf.Buf, mUartSendBuf.Len);
 	mUartSendBuf.State = FRAMEBUF_NONE;

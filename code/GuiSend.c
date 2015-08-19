@@ -33,8 +33,8 @@ static INT8U* mTHBuf;
 static void sendparam(void)
 {   
     INT16U i;
-    INT16U Index = StorageGetDataNum();
-    for (i = 0 ; i < Index; i++)
+    INT16U Index = StorageGetDataNum()+1;
+    for (i = 1 ; i < Index; i++)
     {
         StorageGetParam(i, Info, mBuf, mTHBuf);
         LogicSend(Info, mBuf, mTHBuf);
@@ -109,7 +109,7 @@ static INT8U keysend_proc(void)
 {
     INT8U ret = 0;
     PKEYSTATE Key = getKeyCode();
-    if(Key != NULL && Key->State == KEY_UP)
+    if(Key != NULL && Key->State == KEY_DOWN)
     {       
         switch(Key->Code)
         {

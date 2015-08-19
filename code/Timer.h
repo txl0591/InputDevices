@@ -79,8 +79,9 @@
 #define DEFAULT_TIMER0_MAX	2
 #endif
 
-#define _TIMER0_UART_		0x00	
-#define _TIMER0_MAX_		0x01
+#define _TIMER0_UART_		0x00
+#define _TIMER0_HARDWARE_	0x01
+#define _TIMER0_MAX_		0x02
 
 #define TIMER0_US_500		10
 #define TIMER0_MS(i)		(DEFAULT_TIMER0_MAX*i)

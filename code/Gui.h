@@ -113,6 +113,16 @@ void GuiTimer(void);
 void InvalidateRect(PRect Rect);
 
 /*************************************************
+ Function:		InvalidateRectNow
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void InvalidateRectNow(PRect Rect);
+
+/*************************************************
  Function:		GuiSetPage
  Descroption:	 
  Input: 
@@ -153,6 +163,16 @@ void GuiTimer(void);
  Other:  
 *************************************************/
 void GuiPowerOff(void);
+
+/*************************************************
+ Function:		GuiKeyProc
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void GuiKeyProc(void);
 
 /*************************************************
  Function:		GuiInit

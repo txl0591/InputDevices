@@ -531,24 +531,28 @@ void LCD12864Fill(INT8U * Buf)
 *************************************************/
 void LCD12864FillRect(INT8U * Buf, INT8U x, INT8U y, INT8U w, INT8U h)
 {
-    INT8U i,j;
+    unsigned char page,column; 
     INT8U pageend = (y+h)/8;
     INT8U pagestart = y/8;
-    INT8U Len;
-    INT8U Page;
-        
-    Len = h/8+1;
 
-    #if _LCD_BUF_
-    for (i = pagestart ; i < pageend; i++)
+    if(y%8 != 0)
     {
-        for (j = x ; j < w; j++)
-        {
-            LCD12864WriteData(x+i, y+j*8, Buf[i*LCD_W+j], &Page);
-        }
+        pageend++;
     }
-    #else
-    #endif
+
+    lcd_cs = 0;    
+    for(page = pagestart; page < pageend; page++)  
+    {  
+        LCD12864Cmd(page+0xB0); 
+        LCD12864Cmd(0x10);  
+        LCD12864Cmd(0x00);  
+        for(column = x; column < w; column++)  
+        {  
+            LCD12864DataW(Buf[page*LCD_W+column]);  
+        }  
+    }  
+    lcd_cs = 1;
+    
 }
 
 /*************************************************

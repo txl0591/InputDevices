@@ -551,7 +551,7 @@ static INT8U keyviewparam_proc(void)
     INT8U ret = 1;
     PKEYSTATE Key = getKeyCode();
     INT8U Page = PAGE_VIEW;
-    if(Key != NULL && Key->State == KEY_UP)
+    if(Key != NULL && Key->State == KEY_DOWN)
     {       
         switch(Key->Code)
         {
@@ -594,7 +594,7 @@ static INT8U keyviewparam_proc(void)
             case KEY_CODE_5:
             case KEY_CODE_6:    
             case KEY_CODE_7:
-            case KEY_CODE_2:
+            case KEY_CODE_8:
             case KEY_CODE_9:
                 switch(mPageState)
                 {

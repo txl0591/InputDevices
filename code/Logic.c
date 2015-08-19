@@ -83,9 +83,10 @@ void LogicSend(PINFO_PARAM Info, INT8U* Data, INT8U* THData)
     {
         return;
     }
-
-    SendCommandDirect(COMMAND_SENDPACK, (INT8U*)&Info, (sizeof(INFO_PARAM)-INFO_NAME_NUM));
-    SendCommandDirect(COMMAND_SENDPACK, Info->Name, INFO_NAME_NUM);
+    SendCommandAddID();
+    SendCommandDirect(COMMAND_SENDPACK, (INT8U*)Info, (sizeof(INFO_PARAM)));
+    //SendCommandDirect(COMMAND_SENDPACK, (INT8U*)&Info, (sizeof(INFO_PARAM)-INFO_NAME_NUM));
+    //SendCommandDirect(COMMAND_SENDPACK, Info->Name, INFO_NAME_NUM);
 
     for (i = 0 ; i < Info->Num; i++)
     {

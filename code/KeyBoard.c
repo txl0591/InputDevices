@@ -57,7 +57,7 @@ static INT8U KeyBoardScanOper(INT8U* Value)
     for (i = 0 ; i < 4; i++)
     {
         P2 = key[i];
-        delay_ms(1);
+        delay_ms(10);
         if(P2 != key[i])
         {
             state = 0x01;
@@ -84,9 +84,8 @@ void KeyBoardTimer(void)
 {
     INT8U value;
     INT8U state = 0;
-    if(mKeyBoardScan)
+    if(mKeyBoardScan && mKeyState.State == KEY_UP)
     {
-        mKeyBoardScan = 0;
         state = KeyBoardScanOper(&value);
         if(state) 
         {
@@ -95,17 +94,9 @@ void KeyBoardTimer(void)
                 mKeyState.State = KEY_DOWN;
                 mKeyState.Code = value;
                 mKeyBoardSync = 1;
+                GuiKeyProc();
             }
         }
-        else
-        {
-            if(mKeyState.State == KEY_DOWN)
-            {
-                mKeyState.State = KEY_UP;
-                mKeyBoardSync = 1;
-            }
-        }
-
     }
     P2 = 0x0F;
 }
@@ -124,6 +115,20 @@ void KeyBoardScan(void)
     {     
         mKeyBoardScan = 1;
     }
+    else
+    {
+        mKeyBoardScan = 0;
+    }
+
+    if(0 == mKeyBoardScan)
+    {
+        if(mKeyState.State == KEY_DOWN)
+        {
+            mKeyState.State = KEY_UP;
+            mKeyBoardSync = 1;
+            GuiKeyProc();
+        }
+    }
 }
 
 /*************************************************
@@ -135,8 +140,8 @@ void KeyBoardScan(void)
  Other:  
 *************************************************/
 PKEYSTATE getKeyCode(void)
-{
-    if(mKeyBoardSync)
+{   
+    if(mKeyBoardSync == 1)
     {
         mKeyBoardSync = 0;
         if(mKeyState.State != KEY_DOWN)

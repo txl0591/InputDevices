@@ -475,15 +475,13 @@ void GuiBackWindow(Gui_ID ID)
  Other:  
 *************************************************/
 void GuiProc(void)
-{
-    if(mGuiActive.key_proc != NULL)
-    {
-       mGuiActive.key_proc();
-    }
-    
+{    
     if(mGuiActive.gui_proc != NULL && mGuiActive.GuiReflash > PAINT_NONE)
     {
-       LCDClearScreen();
+       if(mGuiActive.GuiReflash == PAINT_ALL)
+       {
+            LCDClearScreen();
+       }
        if(mCreate && mGuiActive.create_proc != NULL)
        {
             mCreate = 0;
@@ -515,6 +513,73 @@ void GuiProc(void)
         LCDClearScreen();
         LCDPaint(NULL); 
         SetLcdBackLight(LCD_OFF);
+    }
+}
+
+/*************************************************
+ Function:		InvalidateRectNow
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void InvalidateRectNow(PRect Rect)
+{
+    if(NULL == Rect)
+    {
+        mGuiActive.GuiReflash = PAINT_ALL;
+    }
+    else
+    {
+        mGuiActive.GuiReflash = PAINT_RECT;
+
+        mRect.x = Rect->x;
+        mRect.y = Rect->y;    
+        mRect.w = Rect->w;
+        mRect.h = Rect->h;
+    }
+
+    if(mGuiActive.gui_proc != NULL && mGuiActive.GuiReflash > PAINT_NONE)
+    {
+       if(mGuiActive.GuiReflash == PAINT_ALL)
+       {
+            LCDClearScreen();
+       }
+       if(mCreate && mGuiActive.create_proc != NULL)
+       {
+            mCreate = 0;
+            mGuiActive.create_proc();
+       }
+       mGuiActive.gui_proc();
+       
+       if(mGuiActive.GuiReflash == PAINT_ALL)
+       {
+            LCDPaint(NULL); 
+       }
+       else
+       {
+            LCDPaint(&mRect);
+       }
+       
+       mGuiActive.GuiReflash = PAINT_NONE;
+    }
+
+}
+
+/*************************************************
+ Function:		GuiKeyProc
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void GuiKeyProc(void)
+{
+    if(mGuiActive.key_proc != NULL)
+    {
+       mGuiActive.key_proc();
     }
 }
 

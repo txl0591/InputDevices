@@ -14,7 +14,7 @@
 *********************************************************/
 #include "Include.h"
 
-#define _EDIT_NAME_  0
+#define _EDIT_NAME_  1
 
 #define TEXT_DISY    6
 #define TOP_XPOS     ((LCD_W-(4*Font12x12))/2)
@@ -298,16 +298,16 @@ static void MoveNameIndex(INT8U dir)
                 mNumIndex --;
                 if((mNumIndex+1) < Info->NameLen)
                 {
-                    Info->NameLen = mNumIndex+1;
+                    //Info->NameLen = mNumIndex+1;
                 }
             }
         }
         else
         {
-            if(mNumIndex < MaxIndex)
+            if(mNumIndex < (MaxIndex-1))
             {
                 mNumIndex++;
-                Info->NameLen = mNumIndex+1;
+                //Info->NameLen = mNumIndex+1;
             }
         }
         InvalidateRect(NULL);
@@ -359,9 +359,13 @@ static void InputInfoSend(INT8U Key)
 #if _EDIT_NAME_
 static void InputInfoName(INT8U Key)
 {
-    INT8U uChar = GetKeyChar(Key,Info->Name[mNumIndex]);
-    Info->Name[mNumIndex] = uChar;
-    InvalidateRect(NULL);
+    INT8U uChar;
+    if(mNumIndex < 3)
+    {
+        uChar = GetKeyChar(Key,Info->Name[mNumIndex]);
+        Info->Name[mNumIndex] = uChar;
+        InvalidateRect(NULL);
+    }
 }
 #endif
 /*************************************************
@@ -376,7 +380,7 @@ static INT8U keymenu_proc(void)
 {
     INT8U ret = 1;
     PKEYSTATE Key = getKeyCode();
-    if(Key != NULL && Key->State == KEY_UP)
+    if(Key != NULL && Key->State == KEY_DOWN)
     {       
     
         switch(Key->Code)
@@ -426,7 +430,7 @@ static INT8U keymenu_proc(void)
             case KEY_CODE_5:
             case KEY_CODE_6:    
             case KEY_CODE_7:
-            case KEY_CODE_2:
+            case KEY_CODE_8:
             case KEY_CODE_9:
                 if(mEdit == 1)
                 {

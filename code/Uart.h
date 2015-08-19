@@ -69,6 +69,16 @@ typedef struct
 }UART_FRAME,*PUART_FRAME;
 
 /*************************************************
+  Function:		SendCommandAddID
+  Description:  
+  Input:		
+  Output:		
+  Return:		
+  Others:
+*************************************************/
+void SendCommandAddID(void);
+
+/*************************************************
   Function:		SendCommandAck
   Description:  
   Input:		
