@@ -34,6 +34,9 @@ static void sendparam(void)
 {   
     INT16U i;
     INT16U Index = StorageGetDataNum()+1;
+
+    LogicSendMax(Index-1);
+    
     for (i = 1 ; i < Index; i++)
     {
         StorageGetParam(i, Info, mBuf, mTHBuf);

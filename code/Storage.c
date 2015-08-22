@@ -15,6 +15,7 @@
 
 static SYS_PARAM mSysParam;
 static INFO_PARAM mInfoParam;
+static INT16U mCount = 0;
 #if _STORAGE_MODULE_
 /*************************************************
   Function:		StorageReadByte
@@ -280,16 +281,47 @@ void StorageSetDataNum(INT16U state)
 PINFO_PARAM StorageGetInfo(void)
 {
     INT8U a,b,c;
-    a = (mSysParam.DataNum+1)/100;
-    b = ((mSysParam.DataNum+1-a*100))/10;
-    c = (mSysParam.DataNum+1)%10;
-    mInfoParam.Name[0] = '0';
-    mInfoParam.Name[1] = '0';
-    mInfoParam.Name[2] = '0';
+    a = (mCount)/100;
+    b = ((mCount-a*100))/10;
+    c = (mCount)%10;
     mInfoParam.Name[3] = '0'+a;
     mInfoParam.Name[4] = '0'+b;
     mInfoParam.Name[5] = '0'+c;
     return &mInfoParam;
+}
+
+/*************************************************
+ Function:		StorageAddCount
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void StorageAddCount(void)
+{
+    INT8U a,b,c; 
+    a = mInfoParam.Name[3]-'0';
+    b = mInfoParam.Name[4]-'0';
+    c = mInfoParam.Name[5]-'0';    
+    mCount = a*100+b*10+c+1;
+}
+
+/*************************************************
+ Function:		StorageGetCount
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void StorageGetCount(void)
+{
+    INT8U a,b,c; 
+    a = mInfoParam.Name[3]-'0';
+    b = mInfoParam.Name[4]-'0';
+    c = mInfoParam.Name[5]-'0';    
+    mCount = a*100+b*10+c;
 }
 
 /*************************************************
@@ -325,6 +357,7 @@ void StorageInitInfo(void)
         mInfoParam.Name[i] = '0';
     }
     mInfoParam.NameLen = INFO_NAME_NUM;
+    mCount = 1;
 }
 
 /*************************************************

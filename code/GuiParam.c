@@ -405,6 +405,7 @@ static void SaveParam(void)
 {
     DS1302GetTime(&Info->Time);
     StorageSetParam(Info, mBufP, mTHBufP);
+    StorageAddCount();
     GuiBackWindow(GUI_MAIN);
 }
 
@@ -418,7 +419,6 @@ static void SaveParam(void)
 *************************************************/
 static void InputItem(INT8U Key)
 {
-    Rect nRect;  
     INT8U a,b, allflash = 0;
     INT8U oldIndex = mIndex;
     INT16U Base = 16*(mCQIndex-1);
@@ -437,7 +437,8 @@ static void InputItem(INT8U Key)
         mBufP[Base+mIndex] = a*10+b; 
 
         if((mIndex+1) >= 16)
-        {  
+        {
+  
             mCQIndex++;
             init_paramdata();
             mInput[0] = 0;
@@ -461,35 +462,39 @@ static void InputItem(INT8U Key)
     else
     {
         a = mInput[0]-'0';
+        b = 0;
         mBufP[Base+mIndex] = a*10+b; 
     }
-    if(allflash == 1)
-    {
-        InvalidateRect(NULL);
-    }
-    else
-    {   
-        a = oldIndex/4;
-        b = oldIndex%4;
-        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
-        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
-        nRect.w = 24;
-        nRect.h = 24;
-        InvalidateRectNow(&nRect);
-        a = mIndex/4;
-        b = mIndex%4;
-        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
-        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
-        nRect.w = 24;
-        nRect.h = 24;
-        InvalidateRectNow(&nRect);
+
+    InvalidateRect(NULL);
     
-        nRect.x = BIG_XPOS;
-        nRect.y = BIG_YPOS;
-        nRect.w = 48;
-        nRect.h = 80;
-        InvalidateRect(&nRect);
-    }
+//    if(allflash == 1)
+//    {
+//        InvalidateRect(NULL);
+//    }
+//    else
+//    {   
+//        a = oldIndex/4;
+//        b = oldIndex%4;
+//        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
+//        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
+//        nRect.w = 24;
+//        nRect.h = 24;
+//        InvalidateRectNow(&nRect);
+//        a = mIndex/4;
+//        b = mIndex%4;
+//        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
+//        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
+//        nRect.w = 24;
+//        nRect.h = 24;
+//        InvalidateRectNow(&nRect);
+//    
+//        nRect.x = BIG_XPOS;
+//        nRect.y = BIG_YPOS;
+//        nRect.w = 48;
+//        nRect.h = 80;
+//        InvalidateRect(&nRect);
+//    }
 }
 
 /*************************************************

@@ -15,8 +15,13 @@
 
 #include "Include.h"
 
-sbit  ACC0 = ACC^0;
-sbit  ACC7 = ACC^7;
+#define _LOG_DS1302_    0
+
+#if _LOG_DS1302_
+#define LOG_DS1302(a)      UartSendByte(a)
+#else
+#define LOG_DS1302(a)
+#endif
 
 /*************************************************
   Function:		WeekDay
@@ -253,6 +258,15 @@ void DS1302GetTime(PZONE_DATE_TIME Time)
     ReadValue[3] = DS1302Read(DS1302_DAY);
     ReadValue[4] = DS1302Read(DS1302_MONTH);
     ReadValue[5] = DS1302Read(DS1302_YEAR);
+
+    LOG_DS1302(0xBB);
+    LOG_DS1302(ReadValue[0]);
+    LOG_DS1302(ReadValue[1]);
+    LOG_DS1302(ReadValue[2]);
+    LOG_DS1302(ReadValue[3]);
+    LOG_DS1302(ReadValue[4]);
+    LOG_DS1302(ReadValue[5]);    
+    LOG_DS1302(ReadValue[6]);
     
     ReadValue[0] = ReadValue[0]&0X7f;
     ReadH = ReadValue[0]/16;
@@ -313,7 +327,7 @@ void DS1302SetTime(PZONE_DATE_TIME Time)
     {
         year -= 2000;
     }
-    
+
     ReadH = (Time->sec/10)<<4;
     ReadL = Time->sec%10;
     ReadValue[0] = ReadH+ReadL;
@@ -354,6 +368,14 @@ void DS1302SetTime(PZONE_DATE_TIME Time)
     DS1302Write(DS1302_WEEK, ReadValue[6]);
     DS1302SetProtect(1);
 
+    LOG_DS1302(0xAA);
+    LOG_DS1302(ReadValue[0]);
+    LOG_DS1302(ReadValue[1]);
+    LOG_DS1302(ReadValue[2]);
+    LOG_DS1302(ReadValue[3]);
+    LOG_DS1302(ReadValue[4]);
+    LOG_DS1302(ReadValue[5]);    
+    LOG_DS1302(ReadValue[6]);
 }  
 
 /*************************************************

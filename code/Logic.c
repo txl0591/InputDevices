@@ -84,16 +84,28 @@ void LogicSend(PINFO_PARAM Info, INT8U* Data, INT8U* THData)
         return;
     }
     SendCommandAddID();
-    SendCommandDirect(COMMAND_SENDPACK, (INT8U*)Info, (sizeof(INFO_PARAM)));
-    //SendCommandDirect(COMMAND_SENDPACK, (INT8U*)&Info, (sizeof(INFO_PARAM)-INFO_NAME_NUM));
-    //SendCommandDirect(COMMAND_SENDPACK, Info->Name, INFO_NAME_NUM);
+    SendCommandDirectNoID(COMMAND_SENDPACK, (INT8U*)Info, (sizeof(INFO_PARAM)));
 
     for (i = 0 ; i < Info->Num; i++)
     {
-        SendCommandDirect(COMMAND_SENDPACK,Data+16*i,16);
+        SendCommandDirectNoID(COMMAND_SENDPACK,Data+16*i,16);
     }
 
-    SendCommandDirect(COMMAND_SENDPACK,THData,16);
+    SendCommandDirectNoID(COMMAND_SENDPACK,THData,16);
+}
+
+/*************************************************
+ Function:		LogicSendMax
+ Descroption:	 
+ Input: 
+	1.Data
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void LogicSendMax(INT8U Data)
+{
+    SendCommandDirect(COMMAND_PACKINFO, (INT8U*)&Data, 1);
 }
 
 /*************************************************

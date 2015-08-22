@@ -57,7 +57,7 @@ static INT8U KeyBoardScanOper(INT8U* Value)
     for (i = 0 ; i < 4; i++)
     {
         P2 = key[i];
-        delay_ms(10);
+        delay_ms(2);
         if(P2 != key[i])
         {
             state = 0x01;
@@ -125,8 +125,8 @@ void KeyBoardScan(void)
         if(mKeyState.State == KEY_DOWN)
         {
             mKeyState.State = KEY_UP;
+            mKeyState.Code = 0;
             mKeyBoardSync = 1;
-            GuiKeyProc();
         }
     }
 }
@@ -144,7 +144,7 @@ PKEYSTATE getKeyCode(void)
     if(mKeyBoardSync == 1)
     {
         mKeyBoardSync = 0;
-        if(mKeyState.State != KEY_DOWN)
+        if(mKeyState.State == KEY_DOWN)
         {
             SetBeepIndex(_HW_BEEP_OK_);
         }

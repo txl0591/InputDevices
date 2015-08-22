@@ -116,6 +116,16 @@ INT16U StorageWrite(INT16U addr, INT8U *buf, INT16U len);
 #endif
 
 /*************************************************
+ Function:		StorageAddCount
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void StorageAddCount(void);
+
+/*************************************************
  Function:		StorageSetParam
  Descroption:	 
  Input: 
@@ -260,6 +270,16 @@ INT8U StorageGetParamName(INT8U Index, PINFO_PARAM Info);
   Others:
 *************************************************/
 void StorageClear(void);
+
+/*************************************************
+ Function:		StorageGetCount
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void StorageGetCount(void);
 
 #endif
 

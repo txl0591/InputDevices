@@ -69,6 +69,17 @@ typedef struct
 }UART_FRAME,*PUART_FRAME;
 
 /*************************************************
+ Function:		UartSendString
+ Descroption:	 
+ Input: 
+	1.char *string
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void UartSendString(unsigned char *string);
+
+/*************************************************
   Function:		SendCommandAddID
   Description:  
   Input:		
@@ -97,6 +108,16 @@ void SendCommandAck(INT8U Cmd, INT8U *Data, INT8U Len);
   Others:
 *************************************************/
 void SendCommand(INT8U Cmd, INT8U *Data, INT8U Len);
+
+/*************************************************
+  Function:		SendCommandDirectNoID
+  Description:  
+  Input:		
+  Output:		
+  Return:		
+  Others:
+*************************************************/
+void SendCommandDirectNoID(INT8U Cmd, INT8U *Data, INT8U Len);
 
 /*************************************************
   Function:		AckCommand

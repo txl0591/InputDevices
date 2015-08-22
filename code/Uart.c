@@ -308,6 +308,23 @@ void SendCommandAddID(void)
 *************************************************/
 void SendCommandDirect(INT8U Cmd, INT8U *Data, INT8U Len)
 {
+    mUartID++;
+	SendFrameComm(Cmd, FRAME_SEND, FRAME_NONEED_ACK, mUartID, Data, Len);
+    UartSend(mUartSendBuf.Buf, mUartSendBuf.Len);
+	mUartSendBuf.State = FRAMEBUF_NONE;
+	delay_ms(10);
+}
+
+/*************************************************
+  Function:		SendCommandDirectNoID
+  Description:  
+  Input:		
+  Output:		
+  Return:		
+  Others:
+*************************************************/
+void SendCommandDirectNoID(INT8U Cmd, INT8U *Data, INT8U Len)
+{
 	SendFrameComm(Cmd, FRAME_SEND, FRAME_NONEED_ACK, mUartID, Data, Len);
     UartSend(mUartSendBuf.Buf, mUartSendBuf.Len);
 	mUartSendBuf.State = FRAMEBUF_NONE;

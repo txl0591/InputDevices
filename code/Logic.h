@@ -17,6 +17,7 @@
 #define ICCARD_COUNT		16
 
 #define COMMAND_SENDPACK    0x01
+#define COMMAND_PACKINFO    0x02
 
 /*************************************************
   Function:		LogicGetMasterCtl
@@ -70,6 +71,17 @@ INT8U* LogicGetTHBuf(void);
  Other:  
 *************************************************/
 void LogicSend(PINFO_PARAM Info, INT8U* Data, INT8U* THData);
+
+/*************************************************
+ Function:		LogicSendMax
+ Descroption:	 
+ Input: 
+	1.Data
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void LogicSendMax(INT8U Data);
 
 /*************************************************
   Function:		LogicProc

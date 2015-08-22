@@ -97,56 +97,60 @@ INT8U GetKeyChar(INT8U Key, INT8U nowChar)
     INT8U uChar;
     switch(Key)
     {    
-        case KEY_CODE_1:
+        case KEY_CODE_3:
             switch(nowChar)
             {
-                case '1':
-                    uChar = 'Q';
+                case '3':
+                    uChar = 'Y';
                     break;
 
-                case 'Q':
+                case 'Y':
                     uChar = 'Z';
                     break;
 
                 case 'Z':
-                    uChar = '1';
+                    uChar = '3';
                     break;    
                 
                 default:
-                    uChar = '1';
+                    uChar = '3';
                     break;
             }
             break;
         
-        case KEY_CODE_9:
+        case KEY_CODE_2:
             switch(nowChar)
            {
-                case '9':
+                case '2':
+                    uChar = 'V';
+                    break;
+
+                case 'V':
                     uChar = 'W';
                     break;
 
                 case 'W':
                     uChar = 'X';
-                    break;
-
-                case 'X':
-                    uChar = 'Y';
                     break;    
 
-                case 'Y':
-                    uChar = '9';
+                case 'X':
+                    uChar = '2';
                     break;    
                 
                 default:
-                    uChar = '9';
+                    uChar = '2';
                     break;
             }
             break;
         
-        case KEY_CODE_8:
+        case KEY_CODE_1:
            switch(nowChar)
            {
-                case '8':
+                case '1':
+                    uChar = 'S';
+                    break;
+
+                case 'S':
                     uChar = 'T';
                     break;
 
@@ -155,45 +159,41 @@ INT8U GetKeyChar(INT8U Key, INT8U nowChar)
                     break;
 
                 case 'U':
-                    uChar = 'V';
-                    break;
-
-                case 'V':
-                    uChar = '8';
+                    uChar = '1';
                     break;    
                 
                 default:
-                    uChar = '8';
-                    break;
-            }
-            break;
-        
-        case KEY_CODE_7:
-           switch(nowChar)
-           {
-                case '7':
-                    uChar = 'P';
-                    break;
-
-                case 'P':
-                    uChar = 'R';
-                    break;
-
-                case 'R':
-                    uChar = 'S';
-                    break;
-
-                case 'S':
-                    uChar = '7';
-                    break;    
-                
-                default:
-                    uChar = '7';
+                    uChar = '1';
                     break;
             }
             break;
         
         case KEY_CODE_6:
+           switch(nowChar)
+           {
+                case '6':
+                    uChar = 'P';
+                    break;
+
+                case 'P':
+                    uChar = 'Q';
+                    break;
+
+                case 'Q':
+                    uChar = 'R';
+                    break;
+
+                case 'R':
+                    uChar = '6';
+                    break;    
+                
+                default:
+                    uChar = '6';
+                    break;
+            }
+            break;
+        
+        case KEY_CODE_5:
             switch(nowChar)
             {
                 case '5':
@@ -209,31 +209,6 @@ INT8U GetKeyChar(INT8U Key, INT8U nowChar)
                     break;
 
                 case 'O':
-                    uChar = '6';
-                    break;    
-                
-                default:
-                    uChar = '6';
-                    break;
-            }
-            break;
-        
-        case KEY_CODE_5:
-            switch(nowChar)
-            {
-                case '5':
-                    uChar = 'J';
-                    break;
-
-                case 'J':
-                    uChar = 'K';
-                    break;
-
-                case 'K':
-                    uChar = 'L';
-                    break;
-
-                case 'L':
                     uChar = '5';
                     break;    
                 
@@ -247,6 +222,31 @@ INT8U GetKeyChar(INT8U Key, INT8U nowChar)
             switch(nowChar)
             {
                 case '4':
+                    uChar = 'J';
+                    break;
+
+                case 'J':
+                    uChar = 'K';
+                    break;
+
+                case 'K':
+                    uChar = 'L';
+                    break;
+
+                case 'L':
+                    uChar = '4';
+                    break;    
+                
+                default:
+                    uChar = '4';
+                    break;
+            }
+            break;
+        
+        case KEY_CODE_9:
+            switch(nowChar)
+            {
+                case '9':
                     uChar = 'G';
                     break;
 
@@ -263,15 +263,15 @@ INT8U GetKeyChar(INT8U Key, INT8U nowChar)
                     break;    
                 
                 default:
-                    uChar = '4';
+                    uChar = '9';
                     break;
             }
             break;
             
-        case KEY_CODE_3:
+        case KEY_CODE_8:
             switch(nowChar)
             {
-                case '3':
+                case '8':
                     uChar = 'D';
                     break;
 
@@ -284,19 +284,19 @@ INT8U GetKeyChar(INT8U Key, INT8U nowChar)
                     break;
 
                 case 'F':
-                    uChar = '3';
+                    uChar = '8';
                     break;    
                 
                 default:
-                    uChar = '3';
+                    uChar = '8';
                     break;
             }
             break;
         
-        case KEY_CODE_2:
+        case KEY_CODE_7:
             switch(nowChar)
             {
-                case '2':
+                case '7':
                     uChar = 'A';
                     break;
 
@@ -309,11 +309,11 @@ INT8U GetKeyChar(INT8U Key, INT8U nowChar)
                     break;
 
                 case 'C':
-                    uChar = '2';
+                    uChar = '7';
                     break;    
                 
                 default:
-                    uChar = '2';
+                    uChar = '7';
                     break;
             }
             break;

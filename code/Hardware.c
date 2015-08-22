@@ -50,7 +50,7 @@ static void PortInit(void)
 	P2M0 = 0x00;
 
     P3M1 = 0x00;
-    P3M0 = 0x64;
+    P3M0 = 0x04;
 
     P5M1 = 0x00;
     P5M0 = 0x00;

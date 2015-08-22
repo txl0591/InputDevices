@@ -362,10 +362,16 @@ static void InputInfoName(INT8U Key)
     INT8U uChar;
     if(mNumIndex < 3)
     {
-        uChar = GetKeyChar(Key,Info->Name[mNumIndex]);
-        Info->Name[mNumIndex] = uChar;
-        InvalidateRect(NULL);
+        uChar = GetKeyChar(Key,Info->Name[mNumIndex]);    
     }
+    else
+    {
+        uChar = GetKeyNum(Key);    
+    }
+
+    Info->Name[mNumIndex] = uChar;
+    StorageGetCount();
+    InvalidateRect(NULL);
 }
 #endif
 /*************************************************
