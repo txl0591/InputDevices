@@ -480,8 +480,13 @@ void GuiProc(void)
     {
        if(mGuiActive.GuiReflash == PAINT_ALL)
        {
-            LCDClearScreen();
+            LCDClearScreen(NULL);
        }
+       else
+       {
+            LCDClearScreen(&mRect);
+       } 
+       
        if(mCreate && mGuiActive.create_proc != NULL)
        {
             mCreate = 0;
@@ -510,7 +515,7 @@ void GuiProc(void)
     if(mGuiPowerOff == 1)
     {
         mGuiPowerOff = 0;
-        LCDClearScreen();
+        LCDClearScreen(NULL);
         LCDPaint(NULL); 
         SetLcdBackLight(LCD_OFF);
     }
@@ -540,15 +545,21 @@ void InvalidateRectNow(PRect Rect)
         mRect.h = Rect->h;
     }
 
+    
     if(mGuiActive.gui_proc != NULL && mGuiActive.GuiReflash > PAINT_NONE)
     {
        if(mGuiActive.GuiReflash == PAINT_ALL)
        {
-            LCDClearScreen();
+            LCDClearScreen(NULL);
        }
+       else
+       {
+            LCDClearScreen(&mRect);
+       } 
+       
        if(mCreate && mGuiActive.create_proc != NULL)
        {
-            mCreate = 0;
+            mCreate = 0;            
             mGuiActive.create_proc();
        }
        mGuiActive.gui_proc();

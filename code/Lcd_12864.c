@@ -123,8 +123,6 @@ static void LCD12864Reset(void)
 }   
 
 #if _LCD_BUF_
-#else
-
 /*************************************************
   Function:		LCD12864Data
   Description:  
@@ -171,6 +169,51 @@ static void LCD12864SetPage(unsigned char page)
     lcd_rs = 0;
     LCD12864Write(0xB0+page);
 }  
+
+/*************************************************
+  Function:		LCD12864WriteDataDirect
+  Description:  
+  Input:		
+  Output:		
+  Return:		
+  Others:
+*************************************************/
+static void LCD12864WriteDataDirect(INT8U Xpos, INT8U Ypos, INT8U DData, INT8U* Page)
+{
+    INT8U page = Ypos/8;
+    INT8U pageleft = Ypos%8;
+    INT8U Info = 0x00;
+   
+    if(0 == pageleft)
+    {
+        if(*Page != page)
+        {
+            LCD12864SetPage(page);
+            *Page = page;
+        }
+        LCD12864SetColumn(Xpos);
+        LCD12864DataW(DData);  
+
+    }
+    else
+    {
+        if(*Page != page)
+        {
+           LCD12864SetPage(page);
+           *Page = page;
+        }
+        LCD12864SetColumn(Xpos);
+        Info = DData >> pageleft;
+        LCD12864DataW(Info);
+
+        page++;
+        LCD12864SetPage(page);
+        *Page = page;
+        LCD12864SetColumn(Xpos);
+        Info = (DData << (8-pageleft));  
+        LCD12864DataW(Info);
+    }
+}
 #endif
 
 /*************************************************
@@ -238,6 +281,96 @@ void LCD12864WriteData(INT8U Xpos, INT8U Ypos, INT8U DData, INT8U* Page)
         Info = (DData << (8-pageleft));  
         LCD12864DataW(Info);
     }
+    #endif
+}
+
+/*************************************************
+ Function:		LCD12864ClearScreenRect
+ Descroption:	 
+ Input: 
+	1.flag
+	2.x
+	3.y
+	4.w
+	5.h
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void LCD12864ClearScreenRect(INT8U flag, INT8U x, INT8U y, INT8U w, INT8U h)
+{
+    unsigned char page,dat;  
+    INT16U PageStart,PageEnd;
+
+    if(flag)
+    {
+        dat = 0xFF;
+    }
+    else
+    {
+        dat = 0x00;
+    } 
+
+    for (PageStart = y ; PageStart < (y+h); PageStart++)
+    {
+        for (PageEnd = x ; PageEnd < (x+w); PageEnd++)
+        {
+            LCD12864WriteData(PageEnd, PageStart, dat, &page);
+        }
+    }
+}
+
+/*************************************************
+  Function:		LCDClearScreenAll
+  Description:  
+  Input:		
+  Output:		
+  Return:		
+  Others:
+*************************************************/
+void LCD12864ClearScreenAll(INT8U flag)
+{
+    unsigned char page,column,dat;  
+
+    #if _LCD_BUF_
+    INT8U * Buf = LCDGetBuffer();
+    if(flag)
+    {
+        dat = 0xFF;
+    }
+    else
+    {
+        dat = 0x00;
+    } 
+    for(page = 0; page < 8; page++)  
+    {  
+        for(column = 0; column < 128; column++)  
+        {  
+            Buf[page*128+column] = dat;
+        }  
+    } 
+    #else
+    lcd_cs = 0;
+    if(flag)
+    {
+        dat = 0xFF;
+    }
+    else
+    {
+        dat = 0x00;
+    }   
+    
+    for(page = 0; page < 8; page++)  
+    {  
+        LCD12864Cmd(page+0xB0); 
+        LCD12864Cmd(0x10);  
+        LCD12864Cmd(0x00);  
+        for(column = 0; column < 128; column++)  
+        {  
+            LCD12864Data(dat);  
+        }  
+    }  
+    lcd_cs = 1;
     #endif
 }
 
@@ -434,61 +567,7 @@ void LCD12864WriteGB2312(INT8U Xpos, INT8U Ypos, INT8U *DData, INT8U nLen, INT8U
         LCD12864WriteAccsiiData(Xpos+(i*w), Ypos, Addr, w, Len, UnDisplay);
     }
 }
-
-/*************************************************
-  Function:		LCDClearScreen
-  Description:  
-  Input:		
-  Output:		
-  Return:		
-  Others:
-*************************************************/
-void LCD12864ClearScreen(INT8U flag)
-{
-    unsigned char page,column,dat;  
-
-    #if _LCD_BUF_
-    INT8U * Buf = LCDGetBuffer();
-    if(flag)
-    {
-        dat = 0xFF;
-    }
-    else
-    {
-        dat = 0x00;
-    } 
-    for(page = 0; page < 8; page++)  
-    {  
-        for(column = 0; column < 128; column++)  
-        {  
-            Buf[page*128+column] = dat;
-        }  
-    } 
-    #else
-    lcd_cs = 0;
-    if(flag)
-    {
-        dat = 0xFF;
-    }
-    else
-    {
-        dat = 0x00;
-    }   
-    
-    for(page = 0; page < 8; page++)  
-    {  
-        LCD12864Cmd(page+0xB0); 
-        LCD12864Cmd(0x10);  
-        LCD12864Cmd(0x00);  
-        for(column = 0; column < 128; column++)  
-        {  
-            LCD12864Data(dat);  
-        }  
-    }  
-    lcd_cs = 1;
-    #endif
-}
-
+	
 /*************************************************
  Function:		LCD12864Fill
  Descroption:	 
@@ -531,28 +610,28 @@ void LCD12864Fill(INT8U * Buf)
 *************************************************/
 void LCD12864FillRect(INT8U * Buf, INT8U x, INT8U y, INT8U w, INT8U h)
 {
-    unsigned char page,column; 
-    INT8U pageend = (y+h)/8;
-    INT8U pagestart = y/8;
+    unsigned char page,column;  
+    unsigned char pagestart = y/8;
+    unsigned char pageend = (y+h)/8;
 
     if(y%8 != 0)
     {
-        pageend++;
+       pageend++;
     }
-
+    
     lcd_cs = 0;    
     for(page = pagestart; page < pageend; page++)  
     {  
         LCD12864Cmd(page+0xB0); 
         LCD12864Cmd(0x10);  
         LCD12864Cmd(0x00);  
-        for(column = x; column < w; column++)  
+        for(column = x; column < (x+w); column++)  
         {  
+            LCD12864SetColumn(column);
             LCD12864DataW(Buf[page*LCD_W+column]);  
         }  
     }  
     lcd_cs = 1;
-    
 }
 
 /*************************************************

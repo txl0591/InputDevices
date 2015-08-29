@@ -44,10 +44,17 @@ INT8U* LCDGetBuffer(void)
  Return: 	
  Other:  
 *************************************************/
-void LCDClearScreen(void)
+void LCDClearScreen(PRect Rect)
 {
     #if (_LCD_MODULE_ == _LCD_G12864_)
-	LCD12864ClearScreen(0);
+    if(NULL == Rect)
+    {
+        LCD12864ClearScreenAll(0);
+    }
+    else
+    { 
+        LCD12864ClearScreenRect(0, Rect->x, Rect->y, Rect->w, Rect->h);
+    }
 	#endif
 }
 
@@ -152,7 +159,6 @@ void LCDPaint(PRect Rect)
     {
         LCD12864FillRect(mLcd, Rect->x, Rect->y, Rect->w, Rect->h);
     }
-    
     #endif
 }
 
@@ -176,6 +182,6 @@ void LCDInit(void)
 	LCD12864Init();
 	#endif
 
-    LCDClearScreen();    
+    LCDClearScreen(NULL);    
 }
 #endif

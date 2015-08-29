@@ -197,7 +197,7 @@ void TimerInit(void)
 	
 	TimerSetOverTime(TIMER_0, _TIMER0_UART_, TIMER0_MS(10));
 	TimerSetOverTime(TIMER_2, _TIMER2_HARDWARE_, 10);
-    TimerSetOverTime(TIMER_2, _TIMER2_KEYBOARD_, 50);
+   // TimerSetOverTime(TIMER_2, _TIMER2_KEYBOARD_, 50);
     TimerSetOverTime(TIMER_2, _TIMER2_POWER_, TIMER2_MS(500));
 
 	TimerStop();

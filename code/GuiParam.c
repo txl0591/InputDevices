@@ -21,10 +21,10 @@
 #define TOP_XPOS     0
 #define TOP_YPOS     0
 
-#define TEXT_DISY    3
-#define TEXT_DISX    3    
+#define TEXT_DISY    8
+#define TEXT_DISX    2    
 #define TEXT_XPOS    (Font12x12*4)
-#define TEXT_YPOS    4+(LCD_H-(Font12x8+TEXT_DISY)*4)/2
+#define TEXT_YPOS    8
 
 #define BIG_XPOS     4
 #define BIG_YPOS     24
@@ -419,6 +419,7 @@ static void SaveParam(void)
 *************************************************/
 static void InputItem(INT8U Key)
 {
+    Rect nRect;
     INT8U a,b, allflash = 0;
     INT8U oldIndex = mIndex;
     INT16U Base = 16*(mCQIndex-1);
@@ -444,13 +445,14 @@ static void InputItem(INT8U Key)
             mInput[0] = 0;
             mInput[1] = 0;
         	SetBeepIndex(_HW_BEEP_OK_);
+            allflash = 1;
             if(mCQIndex > Info->Num)
             {
                 mCQIndex = 1;
                 mIndex = 0;
                 mPageState = PAGE_THEDIT;    
                 init_thdata();
-                allflash = 1;
+                
             }
         }
         if(mPageState == PAGE_CQEDIT)
@@ -466,35 +468,32 @@ static void InputItem(INT8U Key)
         mBufP[Base+mIndex] = a*10+b; 
     }
 
-    InvalidateRect(NULL);
-    
-//    if(allflash == 1)
-//    {
-//        InvalidateRect(NULL);
-//    }
-//    else
-//    {   
-//        a = oldIndex/4;
-//        b = oldIndex%4;
-//        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
-//        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
-//        nRect.w = 24;
-//        nRect.h = 24;
-//        InvalidateRectNow(&nRect);
-//        a = mIndex/4;
-//        b = mIndex%4;
-//        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
-//        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
-//        nRect.w = 24;
-//        nRect.h = 24;
-//        InvalidateRectNow(&nRect);
-//    
-//        nRect.x = BIG_XPOS;
-//        nRect.y = BIG_YPOS;
-//        nRect.w = 48;
-//        nRect.h = 80;
-//        InvalidateRect(&nRect);
-//    }
+    if(allflash == 1)
+    {
+        InvalidateRect(NULL);
+    }
+    else
+    {      
+        a = oldIndex/4;
+        b = oldIndex%4;
+        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
+        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
+        nRect.w = 12;
+        nRect.h = 8;        
+        InvalidateRectNow(&nRect);
+        a = mIndex/4;
+        b = mIndex%4;
+        nRect.x = TEXT_XPOS+b*2*(Font12x8+TEXT_DISX);
+        nRect.y = TEXT_YPOS+a*(Font12x8+TEXT_DISY);
+        nRect.w = 12;
+        nRect.h = 8;        
+        InvalidateRectNow(&nRect);
+        nRect.x = BIG_XPOS;
+        nRect.y = BIG_YPOS;
+        nRect.w = 40;
+        nRect.h = 24;
+        InvalidateRectNow(&nRect);
+    }
 }
 
 /*************************************************

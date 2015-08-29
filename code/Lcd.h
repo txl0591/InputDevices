@@ -54,7 +54,7 @@ void LCDDisplay(void);
 void LCDPaint(PRect Rect);
 
 /*************************************************
- Function:		LCDClear
+ Function:		LCDGetBuffer
  Descroption:	 
  Input: 
 	1.Rect
@@ -65,17 +65,6 @@ void LCDPaint(PRect Rect);
 INT8U* LCDGetBuffer(void);
 
 /*************************************************
- Function:		LCDClear
- Descroption:	 
- Input: 
-	1.Rect
- Output: 
- Return: 	
- Other:  
-*************************************************/
-void LCDClear(PRect Rect);
-
-/*************************************************
  Function:		LCDClearScreen
  Descroption:	 
  Input: 		None
@@ -83,7 +72,7 @@ void LCDClear(PRect Rect);
  Return: 	
  Other:  
 *************************************************/
-void LCDClearScreen(void);
+void LCDClearScreen(PRect Rect);
 
 /*************************************************
  Function:		LCDWriteAccsii

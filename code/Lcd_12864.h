@@ -100,14 +100,29 @@ void LCD12864WriteAccsii(INT8U Xpos, INT8U Ypos, INT8U *DData, INT8U nLen, INT8U
 void LCD12864WriteGB2312(INT8U Xpos, INT8U Ypos, INT8U *DData, INT8U nLen, INT8U UnDisplay, FontType Type);
 
 /*************************************************
-  Function:		LCDClearScreen
+  Function:		LCDClearScreenAll
   Description:  
   Input:		
   Output:		
   Return:		
   Others:
 *************************************************/
-void LCD12864ClearScreen(INT8U flag);
+void LCD12864ClearScreenAll(INT8U flag);
+
+/*************************************************
+ Function:		LCD12864ClearScreenRect
+ Descroption:	 
+ Input: 
+	1.flag
+	2.x
+	3.y
+	4.w
+	5.h
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+void LCD12864ClearScreenRect(INT8U flag, INT8U x, INT8U y, INT8U w, INT8U h);
 
 /*************************************************
   Function:		LCD12864Init
