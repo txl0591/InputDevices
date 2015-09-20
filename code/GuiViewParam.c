@@ -26,6 +26,10 @@
 #define TEXT_XPOS    (Font12x12*4)
 #define TEXT_YPOS    4+(LCD_H-(Font12x8+TEXT_DISY)*4)/2
 
+#define RESULE_XPOS  8
+#define RESULE_YPOS  16
+
+
 #define BIG_XPOS     4
 #define BIG_YPOS     24
 
@@ -288,7 +292,126 @@ static void guith_proc(void)
         LCDWriteAccsii(BIG_XPOS, BIG_YPOS, Text, 2, Font40x24);
     }
 }
+/*************************************************
+ Function:		get_resule_buf
+ Descroption:	 
+ Input: 
+	1.Buf
+	2.bufstart
+	3.src
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+static INT8U get_resule_buf(INT8U* Buf, INT8U bufstart, float src)
+{
+    int Count = src*100;
+    int tmp = 0;
+    INT8U Buflen = bufstart;
+    Buf[Buflen++] = ':';Buf[Buflen++] = ' ';
+    if(Count < 10)
+    {
+        Buf[Buflen++] = '0';
+        Buf[Buflen++] = '.';
+        Buf[Buflen++] = '0';
+        Buf[Buflen++] = '0'+Count;
+    }
+    else if( Count < 100)
+    {
+        Buf[Buflen++] = '0';
+        Buf[Buflen++] = '.';
+        Buf[Buflen++] = '0'+Count/10;
+        Buf[Buflen++] = '0'+Count%10;
+        
+    }else if( Count < 1000)
+    {
+        Buf[Buflen++] = '0'+Count/100;
+        Buf[Buflen++] = '.';
+        tmp = Count/100;
+        Count -= tmp*100;
+        Buf[Buflen++] = '0'+Count/10;
+        Buf[Buflen++] = '0'+Count%10;
+    }else
+    {
+        Buf[Buflen++] = '0'+Count/1000;
+        tmp = Count/1000;
+        Count -= tmp*1000;
+        Buf[Buflen++] = '0'+Count/100;
+        Buf[Buflen++] = '.';
+        tmp = Count/100;
+        Count -= tmp*100;
+        Buf[Buflen++] = '0'+Count/10;
+        Buf[Buflen++] = '0'+Count%10;   
+	 }
 
+	 return Buflen;
+}
+
+/*************************************************
+ Function:		guith_proc
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+static void resule_proc(void)
+{
+    INT8U Buf[20];
+    INT8U Buflen = 0;
+    float Count = 0;
+    int tmp = 0;
+    INT8U Text[4];
+    INT8U j;
+    INT8U Xpos = TOP_XPOS; 
+    INT8U Ypos = TOP_YPOS;
+    Text[0] = 66;Text[1] = 67;
+    for (j = 0 ; j < 2; j++)
+    {
+        LCDWriteGB2312(Xpos+(j*(Font12x12)), Ypos, &Text[j], 1, Font12x12);
+    } 
+
+    Text[0] = 39;Text[1] = 47;Text[2] = 53;Text[3] = 54;
+    Xpos = RESULE_XPOS; 
+    Ypos = RESULE_YPOS;
+    for (j = 0 ; j < 4; j++)
+    {
+        LCDWriteGB2312(Xpos+(j*(Font12x12)), Ypos, &Text[j], 1, Font12x12);
+    } 
+    Buflen = 0;
+    Buflen = get_resule_buf(Buf, 0, 12.34);
+    Xpos = RESULE_XPOS+4*Font12x12; 
+    Ypos = RESULE_YPOS+2;
+    LCDWriteAccsii(Xpos, Ypos, Buf, Buflen, Font12x8);
+    
+    Xpos = RESULE_XPOS; 
+    Ypos = RESULE_YPOS+Font12x12+2;
+    for (j = 0 ; j < 4; j++)
+    {
+        LCDWriteGB2312(Xpos+(j*(Font12x12)), Ypos, &Text[j], 1, Font12x12);
+    } 
+    Buflen = 0;
+    Buflen = get_resule_buf(Buf, 0, 12.34);
+    Xpos = RESULE_XPOS+4*Font12x12; 
+    Ypos = RESULE_YPOS+Font12x12+2+2;
+    LCDWriteAccsii(Xpos, Ypos, Buf, Buflen, Font12x8);
+
+    Text[0] = 55;Text[1] = 56;Text[2] = 48;Text[3] = 49;
+    Xpos = RESULE_XPOS; 
+    Ypos = RESULE_YPOS+2*(Font12x12+2);
+    for (j = 0 ; j < 4; j++)
+    {
+        LCDWriteGB2312(Xpos+(j*(Font12x12)), Ypos, &Text[j], 1, Font12x12);
+    } 
+    Buflen = 0;
+    Buflen = get_resule_buf(Buf, 0, 12.34);
+    Buflen = get_resule_buf(Buf, 2, 0.34);
+    Xpos = RESULE_XPOS+4*Font12x12; 
+    Ypos = RESULE_YPOS+2*(Font12x12+2)+2;
+    LCDWriteAccsii(Xpos, Ypos, Buf, Buflen, Font12x8);
+
+    
+}
 /*************************************************
  Function:		guiparam_proc
  Descroption:	 
@@ -306,9 +429,13 @@ static void guiviewparam_proc(void)
             {
                 guiview_proc();
             }
-            else
+            else if(mCQIndex == Info->Num+1)
             {
                 guith_proc();    
+            }
+            else
+            {
+                resule_proc();
             }
             break;
         
@@ -377,7 +504,7 @@ static void ChangeDataItem(INT8U state)
 {
     if(state)
     {
-        if(mCQIndex < (Info->Num+1))
+        if(mCQIndex < (Info->Num+2))
         {
             mCQIndex++;
         }
@@ -394,7 +521,7 @@ static void ChangeDataItem(INT8U state)
         }
         else
         {
-            mCQIndex = Info->Num+1;
+            mCQIndex = Info->Num+2;
         }
     }
     InvalidateRect(NULL);
@@ -568,7 +695,7 @@ static INT8U keyviewparam_proc(void)
                         {
                             mPageState = PAGE_CQEDIT;
                         }
-                        else
+                        else if(mCQIndex == Info->Num+1)
                         {
                             mPageState = PAGE_THEDIT;
                         }

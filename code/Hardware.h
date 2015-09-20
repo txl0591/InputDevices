@@ -55,6 +55,7 @@ sbit POWER_CTRL  = P1^4;
 
 #define _HW_BEEP_COUNT_		(64)
 
+#define _HW_BEEP_OFF_       0x00
 #define _HW_BEEP_OK_		0x01			
 #define _HW_BEEP_ERR_		0x02
 
@@ -98,6 +99,16 @@ void SetLcdBackLight(INT8U State);
   Others:
 *************************************************/
 void SetPower(INT8U State);
+
+/*************************************************
+ Function:		GetBatteryLevel
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+INT8U GetBatteryLevel(void);
 
 /*************************************************
   Function:		HarewareProc

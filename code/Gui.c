@@ -20,6 +20,7 @@ static Rect mRect;
 static INT8U mCreate = 0;
 static Gui_ID mBackID = GUI_NONE;
 static INT8U mGuiPowerOff = 0;
+static INT8U mGuiKLog = 3;
 /*************************************************
  Function:		GetKeyNum
  Descroption:	 
@@ -606,7 +607,14 @@ void GuiTimer(void)
 {
     if(mGuiActive.ID == GUI_LOG)
     {
-        GuiBackWindow(GUI_MAIN);
+        if(mGuiKLog > 0)
+        {
+             mGuiKLog--;
+        }
+        if(0 ==  mGuiKLog)
+        {
+            GuiBackWindow(GUI_MAIN);
+        }
     }
 }
 

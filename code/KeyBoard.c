@@ -57,7 +57,7 @@ static INT8U KeyBoardScanOper(INT8U* Value)
     for (i = 0 ; i < 4; i++)
     {
         P2 = key[i];
-        delay_ns(10);
+        delay_ms(4-i);
         if(P2 != key[i])
         {
             state = 0x01;
@@ -131,7 +131,7 @@ void KeyBoardScan(void)
     }
     else
     {
-        KeyBoardTimer();
+        //KeyBoardTimer();
     }
 }
 

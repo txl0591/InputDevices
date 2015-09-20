@@ -18,6 +18,7 @@ static INT16U mBeepCount = 0;
 static INT8U mPowerChange = 0;
 static INT8U mPowerState = POWER_INIT;
 static INT8U mPowerCount = 0;
+static INT8U mBatteryLevel = 100;
 /*************************************************
   Function:		PortInit
   Description:  
@@ -95,8 +96,15 @@ void SetBeepIndex(INT8U Beep)
 {
     if(StorageGetBeep())
     {
-        BeepCtl(BEEP_ON);
-	    mBeepIndex = Beep;
+        if(_HW_BEEP_OFF_ == Beep)
+        {
+            BeepCtl(BEEP_OFF);
+        }
+        else
+        {
+            BeepCtl(BEEP_ON);
+	        mBeepIndex = Beep;
+        }
     }
 }
 
@@ -141,6 +149,19 @@ void SetPowerChange(INT8U State)
     {
         mPowerCount = POWER_TIMEOUT;
     }
+}
+
+/*************************************************
+ Function:		GetBatteryLevel
+ Descroption:	 
+ Input: 		None
+ Output: 
+ Return: 	
+ Other:  
+*************************************************/
+INT8U GetBatteryLevel(void)
+{
+    return 100;
 }
 
 /*************************************************

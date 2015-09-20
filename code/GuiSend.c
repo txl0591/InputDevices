@@ -34,7 +34,7 @@ static void sendparam(void)
 {   
     INT16U i;
     INT16U Index = StorageGetDataNum()+1;
-
+    SetBeepIndex(_HW_BEEP_OFF_);
     LogicSendMax(Index-1);
     
     for (i = 1 ; i < Index; i++)
@@ -42,6 +42,7 @@ static void sendparam(void)
         StorageGetParam(i, Info, mBuf, mTHBuf);
         LogicSend(Info, mBuf, mTHBuf);
     }
+    SetBeepIndex(_HW_BEEP_OK_);
 }
 
 /*************************************************

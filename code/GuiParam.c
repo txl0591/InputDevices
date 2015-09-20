@@ -17,6 +17,7 @@
 #define PAGE_VIEW      0
 #define PAGE_CQEDIT    1
 #define PAGE_THEDIT    2
+#define PAGE_RESULE    3
 
 #define TOP_XPOS     0
 #define TOP_YPOS     0
@@ -603,7 +604,7 @@ static INT8U keyparam_proc(void)
 
                     case PAGE_THEDIT:
                         SaveParam();
-                        break;
+                        break;   
 
                     default:
                         break;
